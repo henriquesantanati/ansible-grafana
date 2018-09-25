@@ -1,0 +1,59 @@
+---
+- name: Install grafana server
+  block:
+    - name: install grafana with rpm
+      yum:
+        name: "{{ grafana_rpm }}"
+        state: present
+
+    - name: install grafana support for server side image rendering
+      yum:
+        name: "{{ item }}"
+        state: installed
+      with_items:
+        - fontconfig
+        - freetype*
+        - urw-fonts
+
+    - name: permit grafana execution on the http default port
+      command: /sbin/setcap 'cap_net_bind_service=+ep' /usr/sbin/grafana-server
+      changed_when: false
+
+    - name: grafana systemd service enable and start
+      systemd:
+        name: grafana-server
+        state: started
+        enabled: yes
+        daemon_reload: yes
+  tags: grafana_install
+
+- name: Configuration grafana server with LDAP and Zabbix plugin
+  block:
+    - name: Install - update Grafana zabbix plugin
+      grafana_plugin:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - alexanderzobnin-zabbix-app
+        - grafana-clock-panel
+      notify: restart grafana
+
+    - name: be sure ini configuration file
+      template:
+        src: grafana.ini.j2
+        dest: "{{ grafana_ini }}"
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart grafana
+
+    - name: be sure ldap configuration file
+      template:
+        src: ldap.toml.j2
+        dest: "{{ grafana_ldap_config }}"
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart grafana
+  tags: grafana_config
+...

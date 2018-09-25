@@ -1,0 +1,12 @@
+---
+grafana_rpm: "https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-5.2.4-1.x86_64.rpm "
+grafana_ini: "/etc/grafana/grafana.ini"
+grafana_ldap_config: "/etc/grafana/ldap.toml"
+grafana_ldap_user: "CN=grafana,OU=Users,DC=domain,DC=br"
+grafana_ldap_pwd: "grafana@123"
+grafana_ldap_server: "domain.br"
+grafana_ldap_admin_grp: "CN=GRAFANA_ADMINS,OU=Grupos,DC=domain,DC=br"
+grafana_ldap_grpsearch: "OU=Grupos,DC=domain,DC=br"
+grafana_http_port: "80"
+grafana_http_domain: "grafana.domain.br"
+...

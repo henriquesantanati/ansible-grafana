@@ -1,0 +1,7 @@
+---
+- name: Grafana installation and configuration play
+  become: true
+  hosts: all
+  roles:
+    - grafana
+...
