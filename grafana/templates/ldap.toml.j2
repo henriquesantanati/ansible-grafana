@@ -28,7 +28,7 @@ bind_password = "{{ grafana_ldap_pwd }}"
 search_filter = "(sAMAccountName=%s)"
 
 # An array of base dns to search through
-search_base_dns = ["DC=trf1,DC=gov,DC=br"]
+search_base_dns = ["DC=Domain,DC=com,DC=br"]
 
 # In POSIX LDAP schemas, without memberOf attribute a secondary query must be made for groups.
 # This is done by enabling group_search_filter below. You must also set member_of= "cn"
